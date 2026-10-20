@@ -1,4 +1,3 @@
-
 name: Build MyDialer APK
 
 on:
@@ -20,29 +19,6 @@ jobs:
       - name: Extract Android source
         run: unzip -o MyDialer-Android-source.zip -d .
 
-      - name: Fix Java and Kotlin JVM targets
-        run: |
-          python3 - <<'PY'
-          from pathlib import Path
-          import re
-
-          p = Path("MyDialer-Android/app/build.gradle.kts")
-          s = p.read_text()
-
-          s = re.sub(
-              r'(sourceCompatibility\s*=\s*)JavaVersion\.VERSION_1_8',
-              r'\1JavaVersion.VERSION_17', s
-          )
-          s = re.sub(
-              r'(targetCompatibility\s*=\s*)JavaVersion\.VERSION_1_8',
-              r'\1JavaVersion.VERSION_17', s
-          )
-
-          p.write_text(s)
-          print("Updated Gradle file:")
-          print(s)
-          PY
-
       - name: Set up Java
         uses: actions/setup-java@v5
         with:
@@ -54,7 +30,7 @@ jobs:
         with:
           gradle-version: '8.9'
 
-      - name: Run unit tests and build debug APK
+      - name: Run tests and build debug APK
         working-directory: MyDialer-Android
         run: gradle --no-daemon testDebugUnitTest assembleDebug
 
