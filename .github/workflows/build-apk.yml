@@ -19,7 +19,8 @@ jobs:
 
       - name: Extract Android source
         run: unzip -o MyDialer-Android-source.zip -d .
-
+      - name: Fix Java JVM target
+        run: sed -i 's/VERSION_1_8/VERSION_17/g' MyDialer-Android/app/build.gradle.kts
       - name: Set up Java
         uses: actions/setup-java@v4
         with:
