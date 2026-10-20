@@ -54,9 +54,9 @@ jobs:
         with:
           gradle-version: '8.9'
 
-      - name: Build debug APK
+      - name: Run unit tests and build debug APK
         working-directory: MyDialer-Android
-        run: gradle --no-daemon assembleDebug
+        run: gradle --no-daemon testDebugUnitTest assembleDebug
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
